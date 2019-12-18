@@ -1,4 +1,4 @@
-# currency-Converter-app
+# Currency-Converter-app
 React to run the project.
 
 1.Clone this repo.
