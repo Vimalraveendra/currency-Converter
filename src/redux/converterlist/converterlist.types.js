@@ -1,0 +1,10 @@
+const converterListActionTypes = {
+  ADD_CURRENCY: "ADD_CURRENCY",
+  CLEAR_CURRENCY: "CLEAR_CURRENCY",
+  REMOVE_CURRENCY: "REMOVE_CURRENCY",
+  HANDLE_INPUT: "HANDLE_INPUT",
+  HANDLE_CHANGE: "HANDLE_CHANGE",
+  HANDLE_SWAP: "HANDLE_SWAP"
+};
+
+export default converterListActionTypes;

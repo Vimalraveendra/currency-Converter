@@ -1,0 +1,78 @@
+.currency-list {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .currency-item {
+    list-style: none;
+    padding-inline-start: 0;
+
+    .item {
+      margin-bottom: 5px;
+
+      background-color: white;
+
+      .left-push {
+        margin-left: 10px;
+      }
+      .right-push {
+        margin-left: 60px;
+      }
+      .remove-item {
+        margin-left: 40px;
+      }
+    }
+  }
+}
+.sum {
+  font-size: 15px;
+  color: red;
+  background-color: white;
+  padding: 5px 20px;
+  margin-top: 0;
+  .largest {
+    padding: 5px;
+  }
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+
+  .btn {
+    width: 50%;
+    border: none;
+    height: 40px;
+    background-color: orange;
+    font-size: 18px;
+    margin: 10px 20px;
+    padding: 0 20px;
+    cursor: pointer;
+    &.danger {
+      background-color: red;
+    }
+    &.btn:focus {
+      outline: none;
+    }
+    &.btn:hover {
+      background-color: black;
+      color: white;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .btn {
+      width: 20vw;
+      font-size: 15px;
+      text-align: center;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    width: 70%;
+  }
+}

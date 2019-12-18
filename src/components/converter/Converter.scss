@@ -1,0 +1,43 @@
+.converter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  width: 80%;
+
+  .converter-content {
+    margin-top: 30px;
+    width: 50vw;
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 7.5px 15px;
+
+    .title {
+      font-size: 2rem;
+    }
+    @media screen and (max-width: 600px) {
+      .title {
+        font-size: 1.2rem;
+        text-align: center;
+        margin: 5px 0;
+      }
+    }
+    .subtitle {
+      margin: 5px;
+      padding: 10px;
+      background-color: red;
+    }
+    @media screen and (max-width: 600px) {
+      .subtitle {
+        font-size: 1em;
+      }
+    }
+
+    .date {
+      color: white;
+    }
+  }
+}
