@@ -1,7 +1,0 @@
-const converterActionTypes = {
-  REQUEST_RATES_PENDING: "REQUEST_RATES_PENDING",
-  REQUEST_RATES_SUCCESS: "REQUEST_RATES_SUCCESS",
-  REQUEST_RATES_FAILED: "REQUEST_RATES_FAILED"
-};
-
-export default converterActionTypes;

@@ -1,81 +1,56 @@
 import React from "react";
 import "./Converter.scss";
 import ConvertedList from "../converter-list/ConvertedList";
-import uuid from "uuid";
+// import uuid from "uuid";
 import { connect } from "react-redux";
-import { requestCurrencyRates } from "../../redux/converter/converter.actions";
+import { requestCurrencyRates } from "../../redux/converterlist/converterlist.actions";
 
 class Converter extends React.Component {
-  state = {
-    currencies: [],
-    id: uuid(),
-    amount: 1,
-    base: "EUR",
-    result: "",
-    date: "",
-    convertedTo: "PLN",
-    rates: {}
-  };
+  // state = {
+  //   currencies: [],
+  //   id: uuid(),
+  //   base: "EUR",
 
-  handleChange = event => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value }, this.getCurrency);
-  };
+  //   date: "",
+  //   convertedTo: "PLN",
+  //   rates: {}
+  // };
 
-  handleInput = event => {
-    this.setState(
-      {
-        amount: event.target.value
-      },
-      this.getCurrency
-    );
-  };
+  // handleChange = event => {
+  //   const { name, value } = event.target;
+  //   this.setState({ [name]: value }, this.getCurrency);
+  // };
+
+  // handleInput = event => {
+  //   this.setState(
+  //     {
+  //       amount: event.target.value
+  //     },
+  //     this.getCurrency
+  //   );
+  // };
 
   componentDidMount() {
-    this.getCurrency();
+    this.props.getCurrency(this.props.base, this.props.amount);
   }
 
-  handleSwap = () => {
-    const { convertedTo, base } = this.state;
+  // handleSwap = () => {
+  //   const { convertedTo, base } = this.props;
 
-    this.setState(
-      {
-        convertedTo: base,
-        base: convertedTo
-      },
-      this.getCurrency
-    );
-  };
+  //   this.setState(
+  //     {
+  //       convertedTo: base,
+  //       base: convertedTo
+  //     },
+  //     this.props.getCurrency()
+  //   );
+  // };
 
-  getCurrency = () => {
-    const { amount, base, convertedTo, currencies } = this.state;
-    if (amount === isNaN) {
-      return;
-    } else {
-      fetch(`https://api.exchangeratesapi.io/latest?base=${base}`)
-        .then(resp => resp.json())
-        .then(data => {
-          const result = (data.rates[convertedTo] * amount).toFixed(2);
-          const rates = data.rates;
-          for (const key in rates) {
-            currencies.push(key);
-          }
-          const newDate = data.date;
-          this.setState({
-            result,
-            date: newDate,
-            rates
-          });
-        })
-        .catch(err => {
-          console.log("Oops", err.message);
-        });
-    }
-  };
   render() {
-    const { currencies, amount, base, result, date, convertedTo } = this.state;
-    const { handleChange, handleInput, handleSwap } = this;
-
+    const { base, result, date, convertedTo, amount } = this.props;
+    const { handleChange, handleSwap } = this;
+    console.log("amount", this.props.amount);
+    console.log("date", this.props.date);
     return (
       <div className="converter">
         <div className="converter-content">
@@ -90,13 +65,11 @@ class Converter extends React.Component {
           <h3 className="date">{date}</h3>
 
           <ConvertedList
-            currencies={currencies}
-            amount={amount}
-            base={base}
-            result={result}
+            // amount={this.props.amount}
+            // base={base}
+            // result={result}
             convertedTo={convertedTo}
             handleChange={handleChange}
-            handleInput={handleInput}
             handleSwap={handleSwap}
           />
         </div>
@@ -105,18 +78,17 @@ class Converter extends React.Component {
   }
 }
 
-const mapStateToProps = ({
-  converterlist: { amount, base, currencies, convertedTo, date, id }
-}) => ({
-  amount,
-  base,
-  date,
-  currencies,
-  convertedTo,
-  id
+const mapStateToProps = state => ({
+  amount: state.converterlist.amount,
+  data: state.converterlist.data,
+  base: state.converterlist.base,
+  convertedTo: state.converterlist.convertedTo,
+  currencies: state.converterlist.currencies,
+  result: state.converterlist.result,
+  date: state.converterlist.date
 });
 
-const mapDispatachToProps = dispatch => ({
-  requestCurrency: () => dispatch(requestCurrencyRates())
+const mapDispatchToProps = dispatch => ({
+  getCurrency: (base, amount) => dispatch(requestCurrencyRates(base, amount))
 });
-export default connect(mapStateToProps, mapDispatachToProps)(Converter);
+export default connect(mapStateToProps, mapDispatchToProps)(Converter);

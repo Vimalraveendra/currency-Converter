@@ -2,7 +2,14 @@ import React from "react";
 import "./ConvertedList.scss";
 import CurrencyList from "../currency-list/CurrencyList";
 import { connect } from "react-redux";
-import { addCurrency } from "../../redux/converterlist/converterlist.actions";
+import {
+  addCurrency,
+  handleInput,
+  handleChange,
+  requestCurrencyRates,
+  handleSwap
+} from "../../redux/converterlist/converterlist.actions";
+
 import uuid from "uuid";
 
 const ConvertedList = ({
@@ -15,8 +22,13 @@ const ConvertedList = ({
   addCurrency,
   handleSwap,
   result,
-  id
+  id,
+  getCurrency
 }) => {
+  console.log("convertedlist", amount);
+  console.log("base", base);
+  console.log("convertedTo", convertedTo);
+  console.log("currencies", currencies);
   return (
     <React.Fragment>
       <div className="input-item">
@@ -24,14 +36,17 @@ const ConvertedList = ({
           className="input"
           type="number"
           value={amount}
-          onChange={handleInput}
+          onChange={event => {
+            handleInput(event);
+            getCurrency(base, amount);
+          }}
         />
 
         <select
           className="options"
           name="base"
           value={base}
-          onChange={handleChange}
+          onChange={event => handleChange(event)}
         >
           {<option className="option">{base}</option>}
         </select>
@@ -70,7 +85,13 @@ const ConvertedList = ({
         >
           Add Item
         </button>
-        <h1 className="swap" onClick={handleSwap}>
+        <h1
+          className="swap"
+          onClick={() => {
+            handleSwap();
+            getCurrency(base, amount);
+          }}
+        >
           &#8595;&#8593;
         </h1>
       </div>
@@ -79,8 +100,22 @@ const ConvertedList = ({
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  addCurrency: item => dispatch(addCurrency(item))
+const mapStateToProps = ({
+  converterlist: { amount, base, result, currencies, convertedTo }
+}) => ({
+  amount,
+  base,
+  result,
+  currencies,
+  convertedTo
 });
 
-export default connect(null, mapDispatchToProps)(ConvertedList);
+const mapDispatchToProps = dispatch => ({
+  addCurrency: item => dispatch(addCurrency(item)),
+  handleInput: event => dispatch(handleInput(event.target.value)),
+  handleChange: event => dispatch(handleChange(event)),
+  getCurrency: base => dispatch(requestCurrencyRates(base)),
+  handleSwap: () => dispatch(handleSwap())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConvertedList);
