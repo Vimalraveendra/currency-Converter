@@ -22,13 +22,8 @@ const ConvertedList = ({
   addCurrency,
   handleSwap,
   result,
-  id,
   getCurrency
 }) => {
-  console.log("convertedlist", amount);
-  console.log("base", base);
-  console.log("convertedTo", convertedTo);
-  console.log("currencies", currencies);
   return (
     <React.Fragment>
       <div className="input-item">
@@ -46,7 +41,10 @@ const ConvertedList = ({
           className="options"
           name="base"
           value={base}
-          onChange={event => handleChange(event)}
+          onChange={event => {
+            handleChange(event);
+            getCurrency(base, amount);
+          }}
         >
           {<option className="option">{base}</option>}
         </select>
@@ -62,7 +60,10 @@ const ConvertedList = ({
           className="options  "
           name="convertedTo"
           value={convertedTo}
-          onChange={handleChange}
+          onChange={event => {
+            handleChange(event);
+            getCurrency(base, amount);
+          }}
         >
           {currencies.map((currency, index) => (
             <option key={index}>{currency}</option>
@@ -89,7 +90,7 @@ const ConvertedList = ({
           className="swap"
           onClick={() => {
             handleSwap();
-            getCurrency(base, amount);
+            getCurrency(convertedTo, amount);
           }}
         >
           &#8595;&#8593;
@@ -113,9 +114,9 @@ const mapStateToProps = ({
 const mapDispatchToProps = dispatch => ({
   addCurrency: item => dispatch(addCurrency(item)),
   handleInput: event => dispatch(handleInput(event.target.value)),
-  handleChange: event => dispatch(handleChange(event)),
-  getCurrency: base => dispatch(requestCurrencyRates(base)),
-  handleSwap: () => dispatch(handleSwap())
+  handleChange: event => dispatch(handleChange(event.target.value)),
+  handleSwap: () => dispatch(handleSwap()),
+  getCurrency: (base, amount) => dispatch(requestCurrencyRates(base, amount))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConvertedList);

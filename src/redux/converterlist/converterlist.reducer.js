@@ -5,18 +5,15 @@ const INITIAL_STATE = {
   currencyList: [],
   currencies: [],
   amount: 1,
-  fields: {},
   id: uuid(),
   base: "EUR",
   result: "",
   date: "",
   convertedTo: "PLN",
-  rates: "",
   error: ""
 };
 
 const converterListReducer = (state = INITIAL_STATE, action = {}) => {
-  console.log("actionpayload", action.payload);
   switch (action.type) {
     case converterListActionTypes.ADD_CURRENCY: {
       return {
@@ -43,24 +40,21 @@ const converterListReducer = (state = INITIAL_STATE, action = {}) => {
     case converterListActionTypes.HANDLE_INPUT: {
       return {
         ...state,
-        amount: action.payload
+        amount: Number(action.payload)
       };
     }
     case converterListActionTypes.HANDLE_CHANGE: {
       return {
         ...state,
-        fields: {
-          ...state.fields,
-          [action.name]: action.value
-        }
+        convertedTo: action.payload
       };
     }
 
     case converterListActionTypes.HANDLE_SWAP: {
       return {
         ...state,
-        base: state.convertedTo,
-        convertedTo: state.base
+        convertedTo: state.base,
+        base: state.convertedTo
       };
     }
     case converterListActionTypes.REQUEST_RATES_PENDING: {
@@ -73,7 +67,6 @@ const converterListReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         isPending: false,
-        rates: action.payload.rates,
         currencies: Object.keys(action.payload.rates),
         result: Number(
           (action.payload.rates[state.convertedTo] * state.amount).toFixed(2)

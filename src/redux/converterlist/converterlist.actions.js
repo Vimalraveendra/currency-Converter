@@ -1,8 +1,6 @@
 import converterListActionTypes from "./converterlist.types";
 
 export const requestCurrencyRates = (base, amount) => dispatch => {
-  console.log("actionsbase", base);
-  console.log("actions", amount);
   if (amount === isNaN || amount === 0) {
     return;
   } else {
@@ -12,8 +10,7 @@ export const requestCurrencyRates = (base, amount) => dispatch => {
       .then(data =>
         dispatch({
           type: converterListActionTypes.REQUEST_RATES_SUCCESS,
-          payload: data,
-          amount: amount
+          payload: data
         })
       )
       .catch(error =>
@@ -40,24 +37,16 @@ export const removeCurrency = id => ({
   payload: id
 });
 
-export const handleInput = event => {
-  console.log("handleinput", event);
-  return {
-    type: converterListActionTypes.HANDLE_INPUT,
-    payload: Number(event)
-  };
-};
+export const handleInput = event => ({
+  type: converterListActionTypes.HANDLE_INPUT,
+  payload: event
+});
 
-export const handleChange = event => {
-  console.log("handleChange", event);
-  return {
-    type: converterListActionTypes.HANDLE_CHANGE,
-    payload: event
-  };
-};
+export const handleChange = event => ({
+  type: converterListActionTypes.HANDLE_CHANGE,
+  payload: event
+});
 
-export const handleSwap = () => {
-  return {
-    type: converterListActionTypes.HANDLE_SWAP
-  };
-};
+export const handleSwap = () => ({
+  type: converterListActionTypes.HANDLE_SWAP
+});
