@@ -1,7 +1,7 @@
 import converterListActionTypes from "./converterlist.types";
 
 export const requestCurrencyRates = (base, amount) => dispatch => {
-  if (amount === isNaN || amount === 0) {
+  if (amount === isNaN) {
     return;
   } else {
     dispatch({ type: converterListActionTypes.REQUEST_RATES_PENDING });
